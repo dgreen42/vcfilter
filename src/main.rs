@@ -9,7 +9,7 @@ use std::{env, usize};
 fn main() {
     let path = env::args()
         .nth(1)
-        .expect("Please enter a valid path to a .vcf");
+        .expect("Please enter a valid path to a .csv");
     let genotypes = env::args()
         .nth(1)
         .expect("Please enter a .csv that contains the dersired accessions");
@@ -18,9 +18,11 @@ fn main() {
 
 fn get_hms(csv_path: String) {
     let mut rdr = ReaderBuilder::new()
-        .delimiter(b'\t')
+        .delimiter(b',')
         .from_path(csv_path)
         .unwrap();
-    let result = rdr.records().next();
-    println!("{:?}", result);
+    let result = rdr.records();
+    for i in result {
+        println!("{:?}", i);
+    }
 }
